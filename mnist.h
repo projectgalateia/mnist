@@ -1,7 +1,12 @@
 #ifndef __MNIST_H__
 #define __MNIST_H__
 
-#ifdef USE_MNIST_LOADER
+#ifdef USE_MNIST_LOADER /* Fundamental macro */
+
+/*
+ * Make mnist_load function static.
+ * Define when the header is included multiple time.
+ */
 #ifdef MNIST_STATIC
 #define _STATIC static
 #else
@@ -19,13 +24,13 @@
 #include <string.h>
 
 typedef struct mnist_data {
-	MNIST_DATA_TYPE data[28][28]; // 28x28 data for the image
-	unsigned int label; // label : 0 to 9
+	MNIST_DATA_TYPE data[28][28]; /* 28x28 data for the image */
+	unsigned int label; /* label : 0 to 9 */
 } mnist_data;
 
 /*
  * Load a unsigned int from raw data.
- * MSB first
+ * MSB first.
  */
 static unsigned int mnist_bin_to_int(char *v)
 {
