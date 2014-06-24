@@ -39,7 +39,6 @@ int main(int argc, char **argv)
                 printf("image count: %d\n", cnt);
         
                 free(data);
-
         }
 
         return 0;
