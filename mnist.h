@@ -66,6 +66,7 @@ _STATIC int mnist_load(
 	char tmp[4];
 
 	unsigned int image_cnt, label_cnt;
+	unsigned int image_dim[2];
 
 	FILE *ifp = fopen(image_filename, "rb");
 	FILE *lfp = fopen(label_filename, "rb");
@@ -97,8 +98,16 @@ _STATIC int mnist_load(
 		return_code = -4; /* Element counts of 2 files mismatch */
 		goto cleanup;
 	}
-	fread(tmp, 1, 4, ifp);
-	fread(tmp, 1, 4, ifp);
+
+	for (i = 0; i < 2; ++i) {
+		fread(tmp, 1, 4, ifp);
+		image_dim[i] = mnist_bin_to_int(tmp);
+	}
+
+	if (image_dim[0] != 28 || image_dim[1] != 28) {
+		return_code = -2; /* Not a valid image file */
+		goto cleanup;
+	}
 
 	*count = image_cnt;
 	*data = malloc(sizeof(mnist_data) * image_cnt);
