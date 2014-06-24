@@ -11,6 +11,8 @@ Include mnist.h in your code.
 
 You should define `USE_MNIST_LOADER` macro to make it active.
 
+Call `mnist_load` function with image filename, label filename, pointer to pointer of `mnist_data` type, and pointer to `unsigned int`.
+
 You may define `MNIST_DOUBLE` to load data as double type, ranging from 0.0 to 1.0 (256 steps).
 
 
