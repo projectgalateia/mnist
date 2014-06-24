@@ -13,6 +13,10 @@
 #define _STATIC 
 #endif
 
+/*
+ * Make mnist loader to load image data as double type.
+ * It divides unsigned char values by 255.0, so the results ranges from 0.0 to 1.0
+ */
 #ifdef MNIST_DOUBLE
 #define MNIST_DATA_TYPE double
 #else
