@@ -1,7 +1,11 @@
 #ifndef __MNIST_H__
 #define __MNIST_H__
 
-#ifdef USE_MNIST_LOADER /* Fundamental macro */
+/*
+ * MNIST loader by Nuri Park - https://github.com/projectgalateia/mnist
+ */
+
+#ifdef USE_MNIST_LOADER /* Fundamental macro to make the code active */
 
 /*
  * Make mnist_load function static.
