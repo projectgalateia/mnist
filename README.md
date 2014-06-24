@@ -31,9 +31,14 @@ int main(int argc, char **argv)
         unsigned int cnt;
         int ret;
 
-        ret = mnist_load("train-images-idx3-ubyte", "train-labels-idx1-ubyte", &data, &cnt);
+        if (ret = mnist_load("train-images-idx3-ubyte", "train-labels-idx1-ubyte", &data, &cnt)) {
+                printf("An error occured: %d\n", ret);
+        } else {
+                printf("image count: %d\n", cnt);
+        
+                free(data);
 
-        printf("image count: %d\n", cnt);
+        }
 
         return 0;
 }
