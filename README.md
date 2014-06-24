@@ -15,6 +15,8 @@ Call `mnist_load` function with image filename, label filename, pointer to point
 
 You may define `MNIST_DOUBLE` to load data as double type, ranging from 0.0 to 1.0 (256 steps).
 
+See the file for more detailed information.
+
 
 Usage Example
 -----
