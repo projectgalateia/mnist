@@ -153,8 +153,8 @@ _STATIC int mnist_load(
 	}
 
 cleanup:
-	fclose(ifp);
-	fclose(lfp);
+	if (ifp) fclose(ifp);
+	if (lfp) fclose(lfp);
 
 	return return_code;
 }
