@@ -19,10 +19,14 @@
 #include <string.h>
 
 typedef struct mnist_data {
-	MNIST_DATA_TYPE data[28][28];
-	unsigned int label;
+	MNIST_DATA_TYPE data[28][28]; // 28x28 data for the image
+	unsigned int label; // label : 0 to 9
 } mnist_data;
 
+/*
+ * Load a unsigned int from raw data.
+ * MSB first
+ */
 static unsigned int mnist_bin_to_int(char *v)
 {
 	int i;
@@ -36,12 +40,19 @@ static unsigned int mnist_bin_to_int(char *v)
 	return ret;
 }
 
+/*
+ * MNIST dataset loader.
+ *
+ * Returns 0 if successed.
+ * Check comments for the return codes.
+ */
 _STATIC int mnist_load(
 	const char *image_filename,
 	const char *label_filename,
 	mnist_data **data,
 	unsigned int *count)
 {
+	int return_code = 0;
 	int i;
 	char tmp[4];
 
@@ -51,19 +62,20 @@ _STATIC int mnist_load(
 	FILE *lfp = fopen(label_filename, "rb");
 
 	if (!ifp || !lfp) {
-		fclose(ifp);
-		fclose(lfp);
-		return -1;
+		return_code = -1; /* No such files */
+		goto cleanup;
 	}
 
 	fread(tmp, 1, 4, ifp);
 	if (mnist_bin_to_int(tmp) != 2051) {
-		return -2;
+		return_code = -2; /* Not a valid image file */
+		goto cleanup;
 	}
 
 	fread(tmp, 1, 4, lfp);
 	if (mnist_bin_to_int(tmp) != 2049) {
-		return -3;
+		return_code = -3; /* Not a valid label file */
+		goto cleanup;
 	}
 
 	fread(tmp, 1, 4, ifp);
@@ -73,7 +85,8 @@ _STATIC int mnist_load(
 	label_cnt = mnist_bin_to_int(tmp);
 
 	if (image_cnt != label_cnt) {
-		return -4;
+		return_code = -4; /* Element counts of 2 files mismatch */
+		goto cleanup;
 	}
 	fread(tmp, 1, 4, ifp);
 	fread(tmp, 1, 4, ifp);
@@ -100,7 +113,11 @@ _STATIC int mnist_load(
 		d->label = tmp[0];
 	}
 
-	return 0;
+cleanup:
+	fclose(ifp);
+	fclose(lfp);
+
+	return return_code;
 }
 
 #endif /* USE_MNIST_LOADER */
