@@ -7,6 +7,10 @@
 
 #ifdef USE_MNIST_LOADER /* Fundamental macro to make the code active */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Make mnist_load function static.
  * Define when the header is included multiple time.
@@ -127,7 +131,7 @@ _STATIC int mnist_load(
 	}
 
 	*count = image_cnt;
-	*data = malloc(sizeof(mnist_data) * image_cnt);
+	*data = (mnist_data *)malloc(sizeof(mnist_data) * image_cnt);
 
 	for (i = 0; i < image_cnt; ++i) {
 		int j;
@@ -156,6 +160,10 @@ cleanup:
 }
 
 #endif /* MNIST_HDR_ONLY */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* USE_MNIST_LOADER */
 #endif /* __MNIST_H__ */
