@@ -23,14 +23,27 @@
 #define MNIST_DATA_TYPE unsigned char
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 typedef struct mnist_data {
 	MNIST_DATA_TYPE data[28][28]; /* 28x28 data for the image */
 	unsigned int label; /* label : 0 to 9 */
 } mnist_data;
+
+/*
+ * If it's header inclusion, make only function prototype visible.
+ */
+#ifdef MNIST_HDR_ONLY
+
+_STATIC int mnist_load(
+	const char *image_filename,
+	const char *label_filename,
+	mnist_data **data,
+	unsigned int *count);
+
+#else
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /*
  * Load a unsigned int from raw data.
@@ -137,6 +150,8 @@ cleanup:
 
 	return return_code;
 }
+
+#endif /* MNIST_HDR_ONLY */
 
 #endif /* USE_MNIST_LOADER */
 #endif /* __MNIST_H__ */
